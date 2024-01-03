@@ -6,6 +6,7 @@ from skimage import transform
 from skimage import util
 from pathlib import Path
 from tqdm import tqdm
+import numpy as np
 
 # our folder path containing some images
 folder_path = './dataset/'
@@ -41,13 +42,8 @@ for i, direc in tqdm(enumerate(folders)):
         img = skimage.io.imread(file)
         
         for transform in available_transformations:
-            transformed_image = available_transformations[transform](img)                
+            transformed_image = available_transformations[transform](img)
+            # Chuyển đổi ảnh để có thể đọc lưu file, nếu không có dòng này thì lỗi ...
+            transformed_image = (transformed_image * 255).astype(np.uint8)                
             new_file_path = augmented_path+direc.name+"/"+transform+"_"+file.name
             sk.io.imsave(new_file_path, transformed_image)
-            
-                
-                
-                
-                
-
-    
